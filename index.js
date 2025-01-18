@@ -26,7 +26,7 @@ const generator = sitemapGenerator(
         maxDepth: 0,
         changeFreq: 'weekly',
         priorityMap: [1.0, 0.8, 0.6, 0.4, 0.2, 0],
-        filepath: '/sitemap.xml',
+        filepath: savePath,
         maxEntriesPerFile: 500000,
         stripQuerystring: true,
         lastMod: true
