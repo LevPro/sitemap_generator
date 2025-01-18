@@ -1,0 +1,14 @@
+{
+  "name": "sitemap_generator",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Generate sitemap.xml for website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "private": true,
+  "dependencies": {
+    "sitemap-generator": "^8.5.1"
+  }
+}
