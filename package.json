@@ -1,0 +1,19 @@
+{
+  "name": "sitemap-generator",
+  "version": "1.0.0",
+  "description": "Sitemap Generator CLI Tool",
+  "main": "sitemap.js",
+  "bin": {
+    "sitemap-generate": "./sitemap.js"
+  },
+  "scripts": {
+    "start": "node sitemap.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0-rc.12"
+  },
+  "keywords": ["sitemap", "generator", "cli"],
+  "author": "Egor Levin",
+  "license": "MIT"
+}
