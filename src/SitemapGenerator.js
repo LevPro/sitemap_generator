@@ -5,14 +5,15 @@ const path = require('path');
 const { URL } = require('url');
 
 // Импортируем необходимые модули
-const axios = require('axios');
 const cheerio = require('cheerio');
+const puppeteer = require('puppeteer');
 
 class SitemapGenerator {
     constructor() {
         this.visitedUrls = new Set();
         this.sitemapData = [];
         this.htmlTreeStructure = [];
+        this.browser = null;
     }
 
     // Проверка корректности URL
@@ -48,29 +49,66 @@ class SitemapGenerator {
         return options;
     }
 
-    // Создание запроса с заголовками
+    // Инициализация браузера
+    async initBrowser() {
+        if (!this.browser) {
+            this.browser = await puppeteer.launch({
+                headless: true,
+                args: [
+                    '--no-sandbox',
+                    '--disable-setuid-sandbox',
+                    '--disable-dev-shm-usage',
+                    '--disable-accelerated-2d-canvas',
+                    '--no-first-run',
+                    '--disable-gpu'
+                ]
+            });
+        }
+    }
+
+    // Закрытие браузера
+    async closeBrowser() {
+        if (this.browser) {
+            await this.browser.close();
+            this.browser = null;
+        }
+    }
+
+    // Создание запроса с заголовками через puppeteer
     async makeRequest(url, depth = 1.0) {
         try {
-            const config = {
-                method: 'GET',
-                url: url,
-                headers: {
-                    'User-Agent': 'LevPro Spider 1.0.0',
-                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
-                },
-                timeout: 30000,
-                maxRedirects: 5,
-                validateStatus: function (status) {
-                    return status >= 200 && status < 400 || status === 404;
-                }
-            };
+            await this.initBrowser();
 
-            const response = await axios(config);
+            const page = await this.browser.newPage();
+
+            // Установка заголовков
+            await page.setExtraHTTPHeaders({
+                'User-Agent': 'LevPro Spider 1.0.0',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+            });
+
+            // Установка таймаута
+            await page.setDefaultTimeout(30000);
+
+            // Навигация к странице
+            const response = await page.goto(url, {
+                waitUntil: 'networkidle2',
+                timeout: 30000
+            });
+
+            // Получение HTML содержимого
+            const html = await page.content();
+
+            // Получение статуса и заголовков
+            const status = response.status();
+            const headers = response.headers();
+
+            await page.close();
 
             return {
-                data: response.data,
-                headers: response.headers,
-                status: response.status,
+                data: html,
+                headers: headers,
+                status: status,
                 url: url,
                 depth: depth
             };
