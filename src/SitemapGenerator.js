@@ -262,7 +262,7 @@ class SitemapGenerator {
             for (const result of results) {
                 if (result.status === 'fulfilled' && !result.value.error) {
                     const data = result.value;
-                    await this.processUrl(data, siteUrl, options);
+                    await this.processUrl(data, siteUrl, options, queue);
                 }
             }
 
@@ -301,7 +301,7 @@ class SitemapGenerator {
     }
 
     // Обработка URL
-    async processUrl(data, siteUrl, options) {
+    async processUrl(data, siteUrl, options, queue) {
         const url = data.url;
 
         if (this.visitedUrls.has(url) || this.visitedUrls.has(url.replace(/\/$/, ''))) {
@@ -352,6 +352,7 @@ class SitemapGenerator {
 
             console.log(`Visited: ${url}`);
         } catch (error) {
+            console.log(error)
             console.error(`Error processing ${url}: ${error.message}`);
         }
     }
