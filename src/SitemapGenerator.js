@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-import cheerio from "cheerio";
-
 const fs = require('fs');
 const path = require('path');
 const { URL } = require('url');
