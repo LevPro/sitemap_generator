@@ -446,6 +446,8 @@ class SitemapGenerator {
             await this.generateSitemap(options);
 
             console.log('Sitemap generation completed successfully.');
+
+            process.exit(1);
         } catch (error) {
             console.error('Error:', error.message);
             process.exit(1);
