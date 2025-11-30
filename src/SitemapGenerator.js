@@ -322,7 +322,7 @@ class SitemapGenerator {
             const sitemapItem = {
                 loc: url,
                 lastmod: data.lastmod || new Date().toISOString(),
-                priority: data.depth,
+                priority: data.depth.toFixed(1),
                 page_title: title,
                 redirect_url: null
             };
