@@ -6,12 +6,23 @@
   "bin": {
     "sitemap-generate": "./sitemap.js"
   },
+  "pkg": {
+    "scripts": ".",
+    "assets": [
+      "node_modules/puppeteer/.local-chromium/**/*"
+    ],
+    "targets": [ "node14-linux-arm64", "node16-win-x64", "node16-macos-x64" ],
+    "outputPath": "dist"
+  },
   "scripts": {
     "start": "node sitemap.js"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
     "puppeteer": "^24.31.0"
+  },
+  "devDependencies": {
+    "pkg": "^5.8.1"
   },
   "keywords": [
     "sitemap",

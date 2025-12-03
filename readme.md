@@ -164,6 +164,16 @@ cd <название-проекта>
 npm install
 ```
 
+## Сборка исполняемого файла
+
+```bash
+pkg . \
+  --target node16-win-x64 \
+  --target node16-linux-x64 \
+  --target node16-macos-x64 \
+  --out-path dist
+```
+
 ## Оптимизация производительности
 
 ### Лимиты
